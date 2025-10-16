@@ -12,12 +12,40 @@ const client = new Client({
     ],
 });
 
-client.once('ready', () => {
-    const endTime = performance.now();
-    const startupTime = (endTime - startTime).toFixed(2);
-    console.log(`✅ Established Connection`);
-    console.log(`Tag: ${client.user.tag}`);
-    console.log(`Startup Time: ${startupTime} ms`);
+client.once('ready', async () => {
+
+  const endTime = performance.now();
+  const startupTime = (endTime - startTime).toFixed(2);
+
+  const logChannelId = config.get('channels.log');
+
+  try {
+
+    const logChannel = await client.channels.fetch(logChannelId);
+
+    const logMessage = [
+      `✅ **Established Connection**`,
+      `**Tag:** ${client.user.tag}`,
+      `**Startup Time:** ${startupTime} ms`
+    ].join('\n');
+
+    if (isSafeTextChannel(logChannel)) {
+
+      await logChannel.send(logMessage);
+
+    } else {
+
+      console.error('⚠️ Log channel is not a valid text-based channel.');
+
+    }
+
+    console.log(logMessage);
+
+  } catch (err) {
+
+    console.error('❌ Failed to fetch or send to the log channel:', err);
+    
+  }
 });
 
 client.on('messageCreate', message => {
