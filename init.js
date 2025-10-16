@@ -1,6 +1,8 @@
-
 require('dotenv').config();
-const { Client, GatewayIntentBits } = require('discord.js');
+const config = require('config');
+const { Client, GatewayIntentBits, PermissionsBitField } = require('discord.js');
+const { isSafeTextChannel } = require('bot/funcs/util/channel');
+
 
 const startTime = performance.now();
 
@@ -44,7 +46,7 @@ client.once('ready', async () => {
   } catch (err) {
 
     console.error('❌ Failed to fetch or send to the log channel:', err);
-    
+
   }
 });
 
