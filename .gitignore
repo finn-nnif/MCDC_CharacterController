@@ -1,5 +1,6 @@
 # Node.js
 .env
+node_modules
 
 # Logs
 
