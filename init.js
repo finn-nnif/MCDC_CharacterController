@@ -33,6 +33,7 @@ async function shutdown({ minecraftReason, dcReason } = {}) {
 
     if (bot && mcEstablished) {
       await logMinecraftTerminated(client, logChannelId, minecraftReason ?? 'Discord bot shutdown', startTime);
+      bot.chat("bye chat");
       bot.removeAllListeners();
       bot.end();
     }
@@ -58,6 +59,8 @@ client.once('ready', async () => {
   bot.once('spawn', async () => {
     mcEstablished = true;
     await logMinecraftEstablished(client, logChannelId, startTime);
+
+    require('./dc_bot/funcs/commands.js')(client, bot);
   });
 
   bot.once('end', (reason) => shutdown({ minecraftReason: reason }));
