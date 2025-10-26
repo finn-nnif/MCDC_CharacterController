@@ -13,6 +13,7 @@
     "canvas": "^3.2.0",
     "config": "^4.1.1",
     "mineflayer": "^4.33.0",
-    "prismarine-viewer": "^1.33.0"
+    "prismarine-viewer": "^1.33.0",
+    "puppeteer": "^24.26.1"
   }
 }

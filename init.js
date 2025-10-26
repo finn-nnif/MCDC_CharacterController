@@ -8,6 +8,8 @@ const {
   logMinecraftTerminated 
 } = require('./dc_bot/funcs/util/Connections.js');
 const mineflayer = require('mineflayer');
+const mineflayerViewer = require('prismarine-viewer').mineflayer;
+
 
 const startTime = performance.now();
 const logChannelId = config.get('channels.log');
@@ -46,19 +48,23 @@ async function shutdown({ minecraftReason, dcReason } = {}) {
   }
 }
 
+const serverPort = 65256
+const webserverPort = 3000
+
 client.once('ready', async () => {
 
   await logConnectionEstablished(client, logChannelId, startTime);
 
   bot = mineflayer.createBot({
     host: 'localhost',
-    port: 65256,
+    port: serverPort,
     username: 'billybob'
   });
 
   bot.once('spawn', async () => {
     mcEstablished = true;
     await logMinecraftEstablished(client, logChannelId, startTime);
+    mineflayerViewer(bot, { firstPerson: true, port: webserverPort })
 
     require('./dc_bot/funcs/commands.js')(client, bot);
   });
