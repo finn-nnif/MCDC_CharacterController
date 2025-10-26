@@ -72,14 +72,14 @@ async function logMinecraftEstablished(client, logChannelId, startTime) {
 async function logMinecraftTerminated(client, logChannelId, reason, startTime) {
 
   const endTime = performance.now();
-  const startupTime = (endTime - startTime).toFixed(2);
+  const runtime = ((endTime - startTime) / 1000).toFixed(2);
 
   try {
 
     const logChannel = await client.channels.fetch(logChannelId);
     const logMessage = [
       `❌ **Minecraft Terminated**`,
-      `**Uptime Time:** ${startupTime} seconds`,
+      `**Uptime Time:** ${runtime} seconds`,
       `**Reason:** ${reason}.`
     ].join('\n');
 
